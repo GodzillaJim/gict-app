@@ -11,9 +11,9 @@ import MainLayout from "./layouts/MainLayout";
 
 const BaseApp = () => {
   return (
-    <Container className={"m-0 p-0"} fluid={true}>
-      <Row>
-        <Col>
+    <Container className={"m-0 p-0 w-100"} fluid={true}>
+      <Row className={"m-0 p-0 w-100"}>
+        <Col className={"m-0 p-0 w-100"}>
           <BrowserRouter>
             <Routes>
               <Route path={"/"} element={<MainLayout />}>
