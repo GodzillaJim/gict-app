@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { object, string } from "yup";
 import "yup-phone";
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -11,35 +12,18 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-
-interface IFormFields {
-  fullName: string;
-  email: string;
-  phone: string;
-  address: string;
-}
-enum Fields {
-  FullName = "fullName",
-  Email = "email",
-  Phone = "phone",
-  Address = "address",
-}
-
-const LABELS = {
-  fullName: "Full Name",
-  email: "Email",
-  phone: "Phone",
-  address: "Address",
-};
-
-const PLACEHOLDERS = {
-  fullName: "Jane Doe",
-  email: "janedoe@example.com",
-  phone: "+254700123456",
-  address: "71 Makongeni, Thika",
-};
+import { Fields, IFormFields, LABELS, PLACEHOLDERS } from "./data";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { RootState } from "../../../../store";
+import { formAction } from "../../../../store/actions/TabOne";
 
 const TabOne = () => {
+  const { loading, error, success } = useAppSelector(
+    (state: RootState) => state.form
+  );
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {});
   const {
     handleSubmit,
     values,
@@ -48,6 +32,9 @@ const TabOne = () => {
     isValid,
     isSubmitting,
     isValidating,
+    setSubmitting,
+    handleBlur,
+    touched,
   } = useFormik<IFormFields>({
     initialValues: {
       fullName: "",
@@ -64,28 +51,38 @@ const TabOne = () => {
       address: string().required("Please provide an address."),
       phone: string().phone("KEN", false, "Please provide a valid phone."),
     }),
-    onSubmit: (values: IFormFields) => {
-      console.log(values);
+    onSubmit: (val: IFormFields) => {
+      dispatch(formAction(val));
+      setSubmitting(false);
     },
   });
 
-  const isLoading = isValidating || isSubmitting;
+  const isLoading = React.useMemo(() => {
+    return isValidating || isSubmitting || loading;
+  }, [isValidating, isSubmitting, loading]);
+
   return (
     <Container>
       <Row>
         <Col xl={8} lg={8} md={9} sm={12} xs={12}>
           <div className={"m-2"}>
             <Card.Body>
+              {error && <Alert variant={"danger"}>{error}</Alert>}
+              {success && (
+                <Alert variant={"success"}>Data submitted successfully!</Alert>
+              )}
               <Form
                 id={"form-details"}
                 noValidate={true}
                 onSubmit={handleSubmit}
+                onBlur={handleBlur}
+                validated={false}
               >
                 <Form.Group controlId={"fullNameGroup"}>
                   <Form.Label>{LABELS.fullName}</Form.Label>
                   <Form.Control
                     type={"text"}
-                    isInvalid={Boolean(errors.fullName)}
+                    isInvalid={Boolean(touched.fullName && errors.fullName)}
                     name={Fields.FullName}
                     value={values.fullName}
                     placeholder={PLACEHOLDERS.fullName}
@@ -104,7 +101,7 @@ const TabOne = () => {
                   <Form.Label>{LABELS.email}</Form.Label>
                   <Form.Control
                     type={"email"}
-                    isInvalid={Boolean(errors.email)}
+                    isInvalid={Boolean(touched.email && errors.email)}
                     name={Fields.Email}
                     value={values.email}
                     placeholder={PLACEHOLDERS.email}
@@ -122,7 +119,7 @@ const TabOne = () => {
                 <Form.Group controlId={"phoneGroup"}>
                   <Form.Label>{LABELS.phone}</Form.Label>
                   <Form.Control
-                    isInvalid={Boolean(errors.phone)}
+                    isInvalid={Boolean(touched.phone && errors.phone)}
                     name={Fields.Phone}
                     value={values.phone}
                     placeholder={PLACEHOLDERS.phone}
@@ -140,7 +137,7 @@ const TabOne = () => {
                 <Form.Group controlId={"addressGroup"}>
                   <Form.Label>{LABELS.address}</Form.Label>
                   <Form.Control
-                    isInvalid={Boolean(errors.address)}
+                    isInvalid={Boolean(touched.address && errors.address)}
                     name={Fields.Address}
                     value={values.address}
                     placeholder={PLACEHOLDERS.address}
@@ -159,6 +156,7 @@ const TabOne = () => {
                   className={"float-right"}
                   disabled={isLoading || !isValid}
                   type="submit"
+                  id={"form-submit-button"}
                 >
                   {isLoading && <Spinner animation={"border"} size={"sm"} />}
                   {!isLoading && "Submit"}
