@@ -1,6 +1,6 @@
 # Simple Application
-#### App is running live <a href="earsplitting-crook.surge.sh">here</a>
-#### Another version from branch main with dummy data on Tab 2 is running <a href="lamentable-picture.surge.sh">here.</a>
+#### App is running live <a href="http://earsplitting-crook.surge.sh">here</a>
+#### Another version from branch main with dummy data on Tab 2 is running <a href="http://lamentable-picture.surge.sh">here.</a>
 ## Tech
 >1. Typescript
 >2. React
