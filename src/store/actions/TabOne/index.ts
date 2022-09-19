@@ -7,10 +7,10 @@ import {
 } from "../../constants/TabOne";
 import axios from "axios";
 import { FORM_APIS } from "./data";
+import { AppDispatch } from "../../index";
 
 export const formAction =
-  (form: IFormFields) =>
-  async (dispatch: ReturnType<typeof useAppDispatch>) => {
+  (form: IFormFields) => async (dispatch: AppDispatch) => {
     try {
       dispatch({ type: SUBMIT_FORM_REQUEST });
       await axios.post(FORM_APIS.submitForm, form, {

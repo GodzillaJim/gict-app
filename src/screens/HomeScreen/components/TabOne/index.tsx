@@ -62,9 +62,9 @@ const TabOne = () => {
   }, [isValidating, isSubmitting, loading]);
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
-        <Col xl={8} lg={8} md={9} sm={12} xs={12}>
+        <Col xl={6} lg={7} md={8} sm={12} xs={12}>
           <div className={"m-2"}>
             <Card.Body>
               {error && <Alert variant={"danger"}>{error}</Alert>}

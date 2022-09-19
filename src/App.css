@@ -6,6 +6,9 @@
   overflow: auto;
   min-height: calc(100vh - 56px - 72px);
 }
+.feedback-height{
+  height: 31px;
+}
 
 @keyframes App-logo-spin {
   from {

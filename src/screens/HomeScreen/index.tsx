@@ -5,7 +5,7 @@ import TabTwo from "./components/TabTwo";
 
 const HomeScreen = () => {
   return (
-    <Container className={"my-1"}>
+    <Container fluid className={"my-1"}>
       <Row>
         <Col>
           <Tabs defaultActiveKey="tabOne" id="form-tab" className="mb-3">
