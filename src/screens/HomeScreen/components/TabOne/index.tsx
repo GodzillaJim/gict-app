@@ -23,7 +23,6 @@ const TabOne = () => {
   );
   const dispatch = useAppDispatch();
 
-  React.useEffect(() => {});
   const {
     handleSubmit,
     values,
@@ -33,7 +32,6 @@ const TabOne = () => {
     isSubmitting,
     isValidating,
     setSubmitting,
-    handleBlur,
     touched,
     resetForm,
   } = useFormik<IFormFields>({
@@ -82,7 +80,6 @@ const TabOne = () => {
                 id={"form-details"}
                 noValidate={true}
                 onSubmit={handleSubmit}
-                onBlur={handleBlur}
                 validated={false}
               >
                 <Form.Group controlId={"fullNameGroup"}>
