@@ -41,7 +41,9 @@ const TabTwo = () => {
   };
 
   const fetchUpdates = () => {
-    dispatch(updateItemsAction());
+    if(!updating){
+      dispatch(updateItemsAction());
+    }
   };
 
   React.useEffect(() => {
