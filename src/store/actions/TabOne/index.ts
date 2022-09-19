@@ -1,4 +1,3 @@
-import { useAppDispatch } from "../../hooks";
 import { IFormFields } from "../../../screens/HomeScreen/components/TabOne/data";
 import {
   SUBMIT_FORM_FAIL,
@@ -13,17 +12,15 @@ export const formAction =
   (form: IFormFields) => async (dispatch: AppDispatch) => {
     try {
       dispatch({ type: SUBMIT_FORM_REQUEST });
-      await axios.post(FORM_APIS.submitForm, form, {
-        headers: {
-          "Content-Type": "application/json",
-          "User-Agent": "PostmanRuntime/7.28.4",
-        },
-      });
+      await axios.post(FORM_APIS.submitForm, form);
       dispatch({ type: SUBMIT_FORM_SUCCESS });
     } catch (e: any) {
       dispatch({
         type: SUBMIT_FORM_FAIL,
-        payload: e.message || "Something went wrong. Try again later!",
+        payload:
+          e.response.data?.Message ||
+          e.message ||
+          "Something went wrong. Try again later!",
       });
     }
   };

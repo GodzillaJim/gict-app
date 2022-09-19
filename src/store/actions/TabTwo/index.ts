@@ -16,18 +16,18 @@ const config = {
     Authorization: "Bearer ALDJAK23423JKSLAJAF23423J23SAD3",
   },
 };
+
 export const listItemsAction = () => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: GET_LIST_REQUEST });
     // const { data: payload } = await axios.get(FORM_APIS.listURL, config);
-
     const payload = generateList();
     dispatch({ type: GET_LIST_SUCCESS, payload });
   } catch (e: any) {
-    console.log(e);
     dispatch({
       type: GET_LIST_FAIL,
-      payload: e.message || "Something went wrong!",
+      payload:
+        e.message || e.response.data?.messsage || "Something went wrong!",
     });
   }
 };
@@ -35,8 +35,7 @@ export const listItemsAction = () => async (dispatch: AppDispatch) => {
 export const updateItemsAction = () => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: UPDATE_LIST_REQUEST });
-    // const { data: payload } = await axios.get(FORM_APIS.listURL, config);
-    const payload = generateList();
+    const { data: payload } = await axios.get(FORM_APIS.listURL, config);
     dispatch({ type: UPDATE_LIST_SUCCESS, payload });
     dispatch({ type: GET_LIST_SUCCESS, payload });
   } catch (e: any) {

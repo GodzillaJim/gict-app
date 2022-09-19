@@ -35,6 +35,7 @@ const TabOne = () => {
     setSubmitting,
     handleBlur,
     touched,
+    resetForm,
   } = useFormik<IFormFields>({
     initialValues: {
       fullName: "",
@@ -56,6 +57,12 @@ const TabOne = () => {
       setSubmitting(false);
     },
   });
+
+  React.useEffect(() => {
+    if (success) {
+      resetForm();
+    }
+  }, [success]);
 
   const isLoading = React.useMemo(() => {
     return isValidating || isSubmitting || loading;
